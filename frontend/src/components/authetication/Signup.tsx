@@ -30,7 +30,7 @@ const Signup: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = SignupSchema.safeParse({
       name,
@@ -57,8 +57,13 @@ const Signup: React.FC = () => {
       sessionStorage.setItem("name", name);
       sessionStorage.setItem("email", email);
       sessionStorage.setItem("password", password);
-      sendOtp(email);
-      navigate("/otp-page");
+     const response= await  sendOtp(email);
+     if(response.success){
+       navigate("/otp-page");
+ 
+     }else{
+      toast.error(response.message);
+     }
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
