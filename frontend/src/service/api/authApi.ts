@@ -29,7 +29,7 @@ export const registerUser = async (
 
 export const sendOtp = async (email: string) => {
   try {
-    console.log("email", email);
+   
     const response = await axios.post(`${API_URL}/sendOtp`, { email });
     return response.data;
   } catch (error) {

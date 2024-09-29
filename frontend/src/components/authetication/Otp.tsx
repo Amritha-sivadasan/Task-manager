@@ -155,7 +155,7 @@ const OTPPage: React.FC = () => {
           ))}
         </div>
         <button
-          className="w-full py-3 px-4 bg-gradient-to-r bg-green-600 text-white rounded-lg text-lg font-semibold hover:from-green-600 hover:to-green-700 transition duration-300 flex items-center justify-center"
+          className="w-full py-3 px-4 bg-gradient-to-r bg-purple-600 text-white rounded-lg text-lg font-semibold hover:from-purple-600 hover:to-purple-700 transition duration-300 flex items-center justify-center"
           onClick={handleverifyOtp}
         >
           <CheckCircle className="mr-2" size={20} />
@@ -164,7 +164,7 @@ const OTPPage: React.FC = () => {
         <div className="mt-6 text-center">
           {canResend ? (
             <button
-              className="text-green-600 hover:text-green-800 transition duration-300 flex items-center justify-center mx-auto"
+              className="text-purple-600 hover:text-purple-800 transition duration-300 flex items-center justify-center mx-auto"
               onClick={handleResendOTP}
             >
               <RefreshCw className="mr-2 animate-spin" size={18} />
@@ -173,7 +173,7 @@ const OTPPage: React.FC = () => {
           ) : (
             <p className="text-gray-600">
               Resend OTP in{" "}
-              <span className="font-semibold text-green-600">{timer}</span>{" "}
+              <span className="font-semibold text-purple-600">{timer}</span>{" "}
               seconds
             </p>
           )}

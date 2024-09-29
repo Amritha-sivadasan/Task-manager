@@ -32,14 +32,10 @@ const Login: React.FC = () => {
 
     try {
       const response = await loginUser(email, password);
-      console.log('login response',response)
       if (response.success) {
         toast.success("Login successful!");
         dispatch(setUser(response.data));
-        localStorage.setItem(
-          "userData",
-          JSON.stringify(response.data)
-        );
+        localStorage.setItem("userData", JSON.stringify(response.data));
         localStorage.setItem("userAuth", "true");
         localStorage.setItem("accessToken", response.accessToken);
         navigate("/");
@@ -61,7 +57,7 @@ const Login: React.FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-4xl">
         <div className="flex flex-col md:flex-row">
-          <div className="w-full md:w-1/2 bg-green-600 p-8 flex items-center justify-center">
+          <div className="w-full md:w-1/2 bg-purple-500 p-8 flex items-center justify-center">
             <div className="text-white text-center">
               <CheckSquare className="w-16 h-16 md:w-20 md:h-20 mb-4 mx-auto" />
               <p className="text-xl md:text-2xl font-bold mb-2 md:mb-4">
@@ -100,7 +96,7 @@ const Login: React.FC = () => {
               />
               <button
                 type="submit"
-                className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-300"
+                className="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors duration-300"
               >
                 Log in
               </button>
@@ -109,7 +105,7 @@ const Login: React.FC = () => {
               Don't have an account?{" "}
               <Link
                 to="/signup"
-                className="font-medium text-green-600 hover:text-green-500"
+                className="font-medium text-purple-600 hover:text-purple-500"
               >
                 Sign up
               </Link>
@@ -149,7 +145,7 @@ const InputField: React.FC<InputFieldProps> = ({
       name={name}
       type={type}
       required
-      className="appearance-none rounded-md relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+      className="appearance-none rounded-md relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
       placeholder={placeholder}
       value={value}
       onChange={onChange}
@@ -185,7 +181,7 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
       name={name}
       type={showPassword ? "text" : "password"}
       required
-      className="appearance-none rounded-md relative block w-full px-3 py-2 pl-10 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+      className="appearance-none rounded-md relative block w-full px-3 py-2 pl-10 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
       placeholder={placeholder}
       value={value}
       onChange={onChange}
