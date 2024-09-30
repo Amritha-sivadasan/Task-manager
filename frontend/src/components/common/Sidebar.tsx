@@ -9,7 +9,7 @@ const Sidebar = () => {
   return (
     <div className="flex ">
       <button
-        className="md:hidden absolute p-1  focus:outline-none flex"
+        className="md:hidden absolute p-1   focus:outline-none flex"
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? <X size={20} /> : <Menu size={20} />}
@@ -39,6 +39,7 @@ const Sidebar = () => {
                 className={`flex items-center space-x-2 p-2 rounded hover:bg-purple-200 ${
                   path.pathname == "/my-task" && "bg-purple-200"
                 }`}
+                onClick={() => setIsOpen(!isOpen)}
               >
                 <Square size={20} />
                 <span>My Tasks</span>
@@ -50,6 +51,7 @@ const Sidebar = () => {
                 className={`flex items-center space-x-2 p-2 rounded hover:bg-gray-200 ${
                   path.pathname == "/complete-task" && "bg-purple-200"
                 }`}
+                onClick={() => setIsOpen(!isOpen)}
               >
                 <CheckSquare size={20} />
                 <span>Completed Tasks</span>
@@ -67,9 +69,6 @@ const Sidebar = () => {
           </ul>
         </nav>
       </aside>
-
-      {/* Content Area */}
-      <main className="flex-grow p-4">{/* Your main content goes here */}</main>
     </div>
   );
 };

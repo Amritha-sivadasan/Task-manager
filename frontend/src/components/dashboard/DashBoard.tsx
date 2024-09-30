@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -12,6 +12,7 @@ import {
   LineElement,
 } from "chart.js";
 import { Bar, Pie, Line } from "react-chartjs-2";
+import { alldetails } from "../../service/api/taskApi";
 
 ChartJS.register(
   ArcElement,
@@ -26,12 +27,31 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
+  const [totalTasks, setTasks] = useState(0);
+  const [completedTasks, setCompletedTasks] = useState(0);
+  const [completionRate, setcompletionRate] = useState(0);
+  const [category, setTasksByCategory] = useState({});
+  const [status, setStatus] = useState({});
+
+  useEffect(() => {
+    const fetchAll = async () => {
+      const response = await alldetails();
+      console.log("response whole data", response);
+      setTasks(response.totalTasks);
+      setCompletedTasks(response.completedTasks);
+      setcompletionRate(response.completionRate);
+      setTasksByCategory(response.tasksByCategory);
+      setStatus(response.taskCompletionStatus);
+    };
+    fetchAll();
+  }, []);
+
   const tasksByCategory = {
-    labels: ["Work", "Personal", "Study", "Health"],
+    labels: ["Work", "Study", "Health", "Personal", "Uncategorized"],
     datasets: [
       {
         label: "Number of Tasks",
-        data: [30, 20, 15, 25],
+        data: Object.values(category || {}),
         backgroundColor: "rgba(75, 192, 192, 0.6)",
       },
     ],
@@ -41,7 +61,7 @@ const Dashboard = () => {
     labels: ["Completed", "In Progress", "Not Started"],
     datasets: [
       {
-        data: [63, 32, 15],
+        data: Object.values(status),
         backgroundColor: ["#36A2EB", "#FFCE56", "#FF6384"],
       },
     ],
@@ -66,15 +86,15 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <div className="bg-white p-4 rounded-lg shadow">
           <h3 className="text-lg font-semibold mb-2">Total Tasks</h3>
-          <p className="text-2xl font-bold">110</p>
+          <p className="text-2xl font-bold">{totalTasks}</p>
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
           <h3 className="text-lg font-semibold mb-2">Completed Tasks</h3>
-          <p className="text-2xl font-bold">63</p>
+          <p className="text-2xl font-bold">{completedTasks}</p>
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
           <h3 className="text-lg font-semibold mb-2">Completion Rate</h3>
-          <p className="text-2xl font-bold">57.3%</p>
+          <p className="text-2xl font-bold">{completionRate}%</p>
         </div>
       </div>
 

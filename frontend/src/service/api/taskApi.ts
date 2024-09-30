@@ -36,3 +36,14 @@ export const alldetails= async()=>{
     return (error as Error).response?.data;
   }
 }
+
+
+export const completeTask= async()=>{
+  try {
+    const response= await axiosInstnce.get('/completeTasks')
+    return response.data
+    
+  } catch (error) {
+    return (error as Error).response?.data;
+  }
+}
