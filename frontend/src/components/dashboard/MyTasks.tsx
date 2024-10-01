@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Plus, X, Search } from "lucide-react";
 import { useAppSelector } from "../../hooks/hook";
 import socket from "../../socket/socket";
-import { getTask } from "../../service/api/taskApi";
+import { getTask, searchItem } from "../../service/api/taskApi";
 import toast from "react-hot-toast";
 import { MdEdit } from "react-icons/md";
 import { FaTrashArrowUp } from "react-icons/fa6";
@@ -62,10 +62,10 @@ const MyTask = () => {
     });
 
     socket.on("taskUpdated", (task) => {
-      if(task.status !=='completed'){
+      if (task.status !== "completed") {
         setTasks((prev) => prev.map((t) => (t._id === task._id ? task : t)));
-      }else{
-        setTasks((prev) => prev.filter((t) => (t._id !== task._id )));
+      } else {
+        setTasks((prev) => prev.filter((t) => t._id !== task._id));
       }
     });
     socket.on("taskDeleted", (taskId) => {
@@ -73,6 +73,15 @@ const MyTask = () => {
       setTasks(updatedTasks);
       console.log("updated task", updatedTasks);
     });
+    // socket.on("searchResult", (result:ITask[]) => {
+
+    //   console.log("result",result)
+    //   if (result && Array.isArray(result)) {
+    //     setTasks(result);
+    //   } else {
+    //     console.error("Invalid search result:", result);
+    //   }
+    // });
 
     return () => {
       socket.off("taskAdded");
@@ -86,7 +95,11 @@ const MyTask = () => {
   };
 
   const handleAddTask = () => {
-    if (newTask.title.trim() === "" || newTask.description.trim() === "") {
+    if (
+      newTask.title.trim() === "" ||
+      newTask.description.trim() === "" ||
+      newTask.dueDate == null
+    ) {
       toast.error("Please Fill The Fields");
       return;
     }
@@ -95,13 +108,13 @@ const MyTask = () => {
 
   const handleStatus = (id: string, status: ITask["status"]) => {
     socket.emit("updateStatus", id, status);
-    if(status !=='completed'){
-      setTasks((prev) => prev.map((t) => (t._id === id ? { ...t, status } : t)));
-    }else{
-      setTasks((prev) => prev.filter((t) => (t._id !== id )));
+    if (status !== "completed") {
+      setTasks((prev) =>
+        prev.map((t) => (t._id === id ? { ...t, status } : t))
+      );
+    } else {
+      setTasks((prev) => prev.filter((t) => t._id !== id));
     }
-
-   
   };
 
   const handleDateChange = (date: Date | null) => {
@@ -117,11 +130,19 @@ const MyTask = () => {
 
   const handleEditTask = () => {
     if (selectedTask) {
+      if (
+        selectedTask.title.trim() == "" ||
+        selectedTask.description.trim() == "" ||
+        selectedTask.dueDate == null
+      ) {
+        toast.error("Please Fill The Fields");
+        return;
+      }
       const updatedTask = {
         ...selectedTask,
-        title: newTask.title || selectedTask.title,
-        description: newTask.description || selectedTask.description,
-        dueDate: newTask.dueDate || selectedTask.dueDate,
+        title: newTask.title,
+        description: newTask.description,
+        dueDate: newTask.dueDate,
       };
 
       socket.emit("updateTask", updatedTask);
@@ -129,6 +150,12 @@ const MyTask = () => {
       setIsEditModalOpen(false);
       toast.success("Task updated successfully!");
     }
+  };
+
+  const handleSearch = async (search: string) => {
+    const response = await searchItem(search);
+    //  console.log('response',response)
+    setTasks(response.data);
   };
 
   const handleDelete = (taskId: string) => {
@@ -161,6 +188,7 @@ const MyTask = () => {
                 <input
                   type="text"
                   placeholder="Search tasks..."
+                  onChange={(e) => handleSearch(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 rounded-full bg-purple-100 text-purple-800 placeholder-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
                 <Search
@@ -305,6 +333,8 @@ const MyTask = () => {
             <DatePicker
               selected={newTask.dueDate}
               onChange={handleDateChange}
+              inline
+              minDate={new Date()}
               className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
               dateFormat="dd/MM/yyyy"
             />
@@ -349,6 +379,8 @@ const MyTask = () => {
 
             <DatePicker
               selected={selectedTask.dueDate}
+              inline
+              minDate={new Date()}
               onChange={(date) =>
                 setSelectedTask({
                   ...selectedTask,

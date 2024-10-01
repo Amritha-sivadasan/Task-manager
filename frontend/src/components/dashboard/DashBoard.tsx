@@ -11,7 +11,7 @@ import {
   PointElement,
   LineElement,
 } from "chart.js";
-import { Bar, Pie, Line } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 import { alldetails } from "../../service/api/taskApi";
 
 ChartJS.register(
@@ -67,17 +67,17 @@ const Dashboard = () => {
     ],
   };
 
-  const taskCreationOverTime = {
-    labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-    datasets: [
-      {
-        label: "Tasks Created",
-        data: [20, 40, 30, 50],
-        borderColor: "rgb(75, 192, 192)",
-        tension: 0.1,
-      },
-    ],
-  };
+  // const taskCreationOverTime = {
+  //   labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+  //   datasets: [
+  //     {
+  //       label: "Tasks Created",
+  //       data: [20, 40, 30, 50],
+  //       borderColor: "rgb(75, 192, 192)",
+  //       tension: 0.1,
+  //     },
+  //   ],
+  // };
 
   return (
     <div className="p-4">
@@ -106,13 +106,6 @@ const Dashboard = () => {
         <div className="bg-white p-4 rounded-lg shadow">
           <h3 className="text-lg font-semibold mb-4">Tasks by Category</h3>
           <Bar data={tasksByCategory} options={{ responsive: true }} />
-        </div>
-
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h3 className="text-lg font-semibold mb-4">
-            Task Creation Over Time
-          </h3>
-          <Line data={taskCreationOverTime} options={{ responsive: true }} />
         </div>
       </div>
     </div>

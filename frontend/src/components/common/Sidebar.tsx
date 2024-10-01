@@ -1,4 +1,4 @@
-import { Home, CheckSquare, Square, Settings, Menu, X } from "lucide-react"; // Import Menu and X icons
+import { Home, CheckSquare, Square, Menu, X } from "lucide-react"; // Import Menu and X icons
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 
@@ -57,15 +57,7 @@ const Sidebar = () => {
                 <span>Completed Tasks</span>
               </Link>
             </li>
-            <li className="mt-auto">
-              <a
-                href="#"
-                className="flex items-center space-x-2 p-2 rounded hover:bg-gray-200"
-              >
-                <Settings size={20} />
-                <span>Settings</span>
-              </a>
-            </li>
+          
           </ul>
         </nav>
       </aside>

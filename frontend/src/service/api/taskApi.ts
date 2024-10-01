@@ -47,3 +47,12 @@ export const completeTask= async()=>{
     return (error as Error).response?.data;
   }
 }
+
+export const searchItem= async(word:string)=>{
+  try {
+    const response= await axiosInstnce.post('/search',{word})
+    return response.data
+  } catch (error) {
+    return (error as Error).response?.data;
+  }
+}

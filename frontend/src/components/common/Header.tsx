@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { logout } from "../../slice/userSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/hook";
 import { useNavigate } from "react-router-dom";
@@ -32,18 +32,18 @@ const Header = () => {
           </div>
           <div className="relative mt-1">
             <button
-              onClick={() => setIsDropdownOpen((prev) => !prev)} // Toggle dropdown
+              onClick={() => setIsDropdownOpen((prev) => !prev)}
               className="flex items-center space-x-2 focus:outline-none"
             >
               <span>{user?.name}</span>
-              <ChevronDown size={20} />
+              {isDropdownOpen ? <ChevronUp /> : <ChevronDown size={20} />}
             </button>
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10">
-                <button
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  onClick={handleLogout}
-                >
+              <div
+                className="absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10 cursor-pointer hover:bg-gray-100"
+                onClick={handleLogout}
+              >
+                <button className="block px-4 py-2 text-sm text-gray-700 ">
                   Logout
                 </button>
               </div>
